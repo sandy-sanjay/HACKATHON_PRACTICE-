@@ -32,20 +32,19 @@ public class TransactionController {
     public ResponseEntity<Transaction> addTransaction(
             @RequestBody TransactionRequest request,
             @RequestHeader(value = "X-User-Id", required = false) String testUserId) {
-        
+
         String userId = getCurrentUserId(testUserId);
         Transaction transaction = walletService.addTransaction(
-                userId, 
-                request.getAmount(), 
-                request.getCategory()
-        );
+                userId,
+                request.getAmount(),
+                request.getCategory());
         return ResponseEntity.ok(transaction);
     }
 
     @GetMapping("/history")
     public ResponseEntity<List<Transaction>> getHistory(
             @RequestHeader(value = "X-User-Id", required = false) String testUserId) {
-        
+
         String userId = getCurrentUserId(testUserId);
         List<Transaction> history = walletService.getTransactionHistory(userId);
         return ResponseEntity.ok(history);
@@ -54,7 +53,7 @@ public class TransactionController {
     @GetMapping("/wallet")
     public ResponseEntity<Wallet> getWallet(
             @RequestHeader(value = "X-User-Id", required = false) String testUserId) {
-        
+
         String userId = getCurrentUserId(testUserId);
         Wallet wallet = walletService.getWallet(userId);
         return ResponseEntity.ok(wallet);
