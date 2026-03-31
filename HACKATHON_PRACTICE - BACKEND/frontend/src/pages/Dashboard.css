@@ -141,6 +141,14 @@
   text-align: right;
 }
 
+.dashboard-table-row {
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.dashboard-table-row:last-child {
+  border-bottom: none;
+}
+
 .dashboard-table-td {
   padding: 1.5rem;
 }
