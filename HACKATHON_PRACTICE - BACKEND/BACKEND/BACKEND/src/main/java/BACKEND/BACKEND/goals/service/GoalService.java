@@ -51,7 +51,10 @@ public class GoalService {
         GoalGroup goal = goalGroupRepository.findById(goalId)
                 .orElseThrow(() -> new RuntimeException("Goal not found"));
 
-        Double progress = (goal.getCurrentAmount() / goal.getTargetAmount()) * 100;
+        Double progress = 0.0;
+        if (goal.getTargetAmount() != null && goal.getTargetAmount() > 0) {
+            progress = (goal.getCurrentAmount() / goal.getTargetAmount()) * 100;
+        }
 
         Map<String, Object> result = new HashMap<>();
         result.put("goalId", goalId);

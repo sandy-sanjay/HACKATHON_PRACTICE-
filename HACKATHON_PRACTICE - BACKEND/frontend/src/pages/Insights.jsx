@@ -42,6 +42,9 @@ const Insights = () => {
   
   const hasData = processedInsights.length > 0;
 
+  // Backend returns: { totalTagsTracked, insight, suggestedNudge: { message, triggerType } }
+  const { totalTagsTracked, insight, suggestedNudge } = insights;
+
   return (
     <div className="container">
       <Link to="/" style={{ color: 'var(--text-muted)', textDecoration: 'none', marginBottom: '1.5rem', display: 'inline-block' }}>← Back to Dashboard</Link>
@@ -50,6 +53,7 @@ const Insights = () => {
         {insights?.insight || "How your emotions drive your spending."}
       </p>
 
+<<<<<<< HEAD
       {!hasData ? (
         <div className="glass-card" style={{ padding: '4rem', textAlign: 'center', opacity: 0.6 }}>
           <p>No behavioral data yet. Start recording transactions with moods to see insights!</p>
@@ -77,6 +81,39 @@ const Insights = () => {
                 <span>Total Spent</span>
                 <span style={{ color: 'var(--text-main)', fontWeight: '600' }}>${item.amount.toFixed(2)}</span>
               </div>
+=======
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: '2rem' }}>
+
+        {/* Tags Summary Card */}
+        <div className="glass-card animate-in" style={{ padding: '2rem' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+            <h3 style={{ textTransform: 'uppercase', fontSize: '0.9rem', letterSpacing: '1px', color: 'var(--accent)' }}>Total Tags Tracked</h3>
+            <span style={{ fontWeight: 'bold', fontSize: '2rem' }}>{totalTagsTracked ?? 0}</span>
+          </div>
+          <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', lineHeight: '1.6' }}>
+            {insight || 'Keep tracking your moods to unlock insights!'}
+          </p>
+        </div>
+
+        {/* Suggested Nudge Card */}
+        {suggestedNudge && (
+          <div className="glass-card animate-in" style={{ padding: '2rem', animationDelay: '0.1s' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+              <h3 style={{ textTransform: 'uppercase', fontSize: '0.9rem', letterSpacing: '1px', color: 'var(--accent)' }}>
+                {suggestedNudge.triggerType || 'Nudge'}
+              </h3>
+              <span style={{ fontSize: '1.5rem' }}>💡</span>
+            </div>
+
+            <div style={{ marginTop: '1rem', padding: '1rem', background: 'rgba(56, 189, 248, 0.08)', border: '1px solid rgba(56, 189, 248, 0.2)', borderRadius: '12px' }}>
+              <p style={{ fontSize: '0.9rem', color: 'var(--text-main)', lineHeight: '1.6' }}>
+                <strong>Nudge:</strong> {suggestedNudge.message}
+              </p>
+            </div>
+          </div>
+        )}
+      </div>
+>>>>>>> b88a4a62041c4f9af991a75fb1ab5f91422c1890
 
               {/* Frontend-driven Nudges */}
               {item.mood.toLowerCase() === 'stressed' && item.percentage > 30 && (

@@ -3,7 +3,6 @@ package BACKEND.BACKEND.Behavior_module.service;
 import BACKEND.BACKEND.Behavior_module.model.BehaviorTag;
 import BACKEND.BACKEND.Behavior_module.model.Nudge;
 import BACKEND.BACKEND.Behavior_module.repository.BehaviorTagRepository;
-import BACKEND.BACKEND.Behavior_module.repository.NudgeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,9 +16,6 @@ public class BehaviorService {
 
     @Autowired
     private BehaviorTagRepository behaviorTagRepository;
-
-    @Autowired
-    private NudgeRepository nudgeRepository;
 
     public BehaviorTag tagTransaction(String transactionId, String mood) {
         BehaviorTag tag = new BehaviorTag();
@@ -37,12 +33,12 @@ public class BehaviorService {
         long boredCount = allTags.stream().filter(t -> "bored".equalsIgnoreCase(t.getMood())).count();
         
         String insightMessage;
-        if (stressedCount > boredCount) {
+        if (allTags.isEmpty()) {
+            insightMessage = "No behavioral data yet. Keep tracking to get personalized insights.";
+        } else if (stressedCount > boredCount) {
             insightMessage = "You seem to be making a lot of stress-based transactions lately. Consider taking a breather before your next purchase.";
         } else if (boredCount > stressedCount) {
             insightMessage = "Boredom seems to be a trigger for your spending. Maybe try picking up a free hobby!";
-        } else if (allTags.isEmpty()) {
-            insightMessage = "No behavioral data yet. Keep tracking to get personalized insights.";
         } else {
             insightMessage = "Your spending mood is balanced. Keep up the good work!";
         }

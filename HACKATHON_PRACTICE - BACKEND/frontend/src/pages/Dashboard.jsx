@@ -10,9 +10,13 @@ const Dashboard = () => {
     fetchTransactions();
   }, [fetchTransactions]);
 
+<<<<<<< HEAD
   // Robust calculation for total spending
   const safeTransactions = Array.isArray(transactions) ? transactions : [];
   const totalSpent = safeTransactions.reduce((acc, curr) => acc + (curr.amount || 0), 0);
+=======
+  const totalSpent = transactions.reduce((acc, curr) => acc + (Number(curr.amount) || 0), 0);
+>>>>>>> b88a4a62041c4f9af991a75fb1ab5f91422c1890
 
   const handleLogout = () => {
     localStorage.clear();
@@ -62,11 +66,12 @@ const Dashboard = () => {
               <thead>
                 <tr style={{ background: 'rgba(255,255,255,0.02)', textAlign: 'left' }}>
                   <th style={{ padding: '1.5rem', fontSize: '0.8rem', color: 'var(--text-muted)' }}>CATEGORY</th>
-                  <th style={{ padding: '1.5rem', fontSize: '0.8rem', color: 'var(--text-muted)' }}>MOOD</th>
+                  <th style={{ padding: '1.5rem', fontSize: '0.8rem', color: 'var(--text-muted)' }}>DATE</th>
                   <th style={{ padding: '1.5rem', fontSize: '0.8rem', color: 'var(--text-muted)', textAlign: 'right' }}>AMOUNT</th>
                 </tr>
               </thead>
               <tbody>
+<<<<<<< HEAD
                 {safeTransactions.map((t, idx) => (
                   <tr key={t.id || idx} style={{ borderBottom: idx === safeTransactions.length - 1 ? 'none' : '1px solid var(--glass-border)' }}>
                     <td style={{ padding: '1.5rem' }}>{t.category}</td>
@@ -76,6 +81,17 @@ const Dashboard = () => {
                       </span>
                     </td>
                     <td style={{ padding: '1.5rem', textAlign: 'right', fontWeight: '600' }}>-${(t.amount || 0).toFixed(2)}</td>
+=======
+                {transactions.map((t, idx) => (
+                  <tr key={t.id} style={{ borderBottom: idx === transactions.length - 1 ? 'none' : '1px solid var(--glass-border)' }}>
+                    <td style={{ padding: '1.5rem' }}>{t.category}</td>
+                    <td style={{ padding: '1.5rem' }}>
+                      <span style={{ padding: '4px 12px', borderRadius: '99px', background: 'rgba(56, 189, 248, 0.1)', color: 'var(--accent)', fontSize: '0.8rem' }}>
+                        {t.createdAt ? new Date(t.createdAt).toLocaleDateString() : 'N/A'}
+                      </span>
+                    </td>
+                    <td style={{ padding: '1.5rem', textAlign: 'right', fontWeight: '600' }}>-${Number(t.amount).toFixed(2)}</td>
+>>>>>>> b88a4a62041c4f9af991a75fb1ab5f91422c1890
                   </tr>
                 ))}
               </tbody>

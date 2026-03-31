@@ -12,7 +12,12 @@ export const useWallet = () => {
     setLoading(true);
     try {
       const response = await apiService.transactions.getAll();
+<<<<<<< HEAD
       setTransactions(response.data || []);
+=======
+      // Backend returns List<Transaction> directly (not wrapped in ApiResponse)
+      setTransactions(Array.isArray(response.data) ? response.data : []);
+>>>>>>> b88a4a62041c4f9af991a75fb1ab5f91422c1890
       setError(null);
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to fetch transactions');
@@ -25,7 +30,14 @@ export const useWallet = () => {
     setLoading(true);
     try {
       const response = await apiService.transactions.getInsights();
+<<<<<<< HEAD
       setInsights(response.data || {});
+=======
+      // Backend returns ApiResponse<Map<String,Object>> with keys:
+      // totalTagsTracked, insight, suggestedNudge
+      const data = response.data?.data ?? response.data;
+      setInsights(data);
+>>>>>>> b88a4a62041c4f9af991a75fb1ab5f91422c1890
       setError(null);
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to fetch insights');
@@ -35,6 +47,7 @@ export const useWallet = () => {
   }, []);
 
   const fetchGoals = useCallback(async () => {
+<<<<<<< HEAD
     setLoading(true);
     try {
       const response = await apiService.goals.getAll();
@@ -45,19 +58,24 @@ export const useWallet = () => {
     } finally {
       setLoading(false);
     }
+=======
+    // No GET /goals/all endpoint on backend; goals list is managed locally
+    // after creation. Nothing to fetch remotely in this version.
+    setGoals((prev) => prev);
+>>>>>>> b88a4a62041c4f9af991a75fb1ab5f91422c1890
   }, []);
 
   const addTransaction = async (data) => {
     setLoading(true);
     try {
-      await apiService.transactions.create(data);
+      // Backend only stores amount + category; moodTag is frontend-only for now
+      await apiService.transactions.create({ amount: data.amount, category: data.category });
       await fetchTransactions();
-      await fetchInsights();
       return { success: true };
     } catch (err) {
-      const msg = err.response?.data?.message || 'Failed to add transaction';
-      setError(msg);
-      return { success: false, message: msg };
+      const msg = err.response?.data?.message || err.response?.data || 'Failed to add transaction';
+      setError(String(msg));
+      return { success: false, message: String(msg) };
     } finally {
       setLoading(false);
     }
@@ -66,13 +84,19 @@ export const useWallet = () => {
   const addGoal = async (data) => {
     setLoading(true);
     try {
-      await apiService.goals.create(data);
-      await fetchGoals();
+      // Backend uses @RequestParam name + targetAmount (not a JSON body)
+      const response = await apiService.goals.create({
+        name: data.title || data.name,
+        targetAmount: data.targetAmount,
+      });
+      const created = response.data?.data ?? response.data;
+      // Add the new goal to local state (backend has no GET-all-goals endpoint)
+      setGoals((prev) => [...prev, created]);
       return { success: true };
     } catch (err) {
-      const msg = err.response?.data?.message || 'Failed to add goal';
-      setError(msg);
-      return { success: false, message: msg };
+      const msg = err.response?.data?.message || err.response?.data || 'Failed to add goal';
+      setError(String(msg));
+      return { success: false, message: String(msg) };
     } finally {
       setLoading(false);
     }
