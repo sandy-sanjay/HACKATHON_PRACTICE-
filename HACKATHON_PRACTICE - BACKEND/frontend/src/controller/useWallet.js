@@ -12,7 +12,7 @@ export const useWallet = () => {
     setLoading(true);
     try {
       const response = await apiService.transactions.getAll();
-      setTransactions(response.data.data);
+      setTransactions(response.data || []);
       setError(null);
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to fetch transactions');
@@ -25,7 +25,7 @@ export const useWallet = () => {
     setLoading(true);
     try {
       const response = await apiService.transactions.getInsights();
-      setInsights(response.data.data);
+      setInsights(response.data || {});
       setError(null);
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to fetch insights');
@@ -38,7 +38,7 @@ export const useWallet = () => {
     setLoading(true);
     try {
       const response = await apiService.goals.getAll();
-      setGoals(response.data.data);
+      setGoals(response.data || []);
       setError(null);
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to fetch goals');

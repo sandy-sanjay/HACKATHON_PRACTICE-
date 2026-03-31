@@ -10,7 +10,9 @@ const Dashboard = () => {
     fetchTransactions();
   }, [fetchTransactions]);
 
-  const totalSpent = transactions.reduce((acc, curr) => acc + curr.amount, 0);
+  // Robust calculation for total spending
+  const safeTransactions = Array.isArray(transactions) ? transactions : [];
+  const totalSpent = safeTransactions.reduce((acc, curr) => acc + (curr.amount || 0), 0);
 
   const handleLogout = () => {
     localStorage.clear();
@@ -65,21 +67,21 @@ const Dashboard = () => {
                 </tr>
               </thead>
               <tbody>
-                {transactions.map((t, idx) => (
-                  <tr key={t._id} style={{ borderBottom: idx === transactions.length - 1 ? 'none' : '1px solid var(--glass-border)' }}>
+                {safeTransactions.map((t, idx) => (
+                  <tr key={t.id || idx} style={{ borderBottom: idx === safeTransactions.length - 1 ? 'none' : '1px solid var(--glass-border)' }}>
                     <td style={{ padding: '1.5rem' }}>{t.category}</td>
                     <td style={{ padding: '1.5rem' }}>
                       <span style={{ padding: '4px 12px', borderRadius: '99px', background: 'rgba(56, 189, 248, 0.1)', color: 'var(--accent)', fontSize: '0.8rem' }}>
-                        {t.moodTag.toUpperCase()}
+                        {(t.moodTag || 'MODERATE').toUpperCase()}
                       </span>
                     </td>
-                    <td style={{ padding: '1.5rem', textAlign: 'right', fontWeight: '600' }}>-${t.amount.toFixed(2)}</td>
+                    <td style={{ padding: '1.5rem', textAlign: 'right', fontWeight: '600' }}>-${(t.amount || 0).toFixed(2)}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           )}
-          {!loading && transactions.length === 0 && (
+          {!loading && safeTransactions.length === 0 && (
             <p style={{ padding: '3rem', textAlign: 'center', color: 'var(--text-muted)' }}>No transactions yet. Start recording!</p>
           )}
         </div>
