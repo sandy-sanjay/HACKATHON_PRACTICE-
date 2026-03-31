@@ -10,8 +10,7 @@ const Dashboard = () => {
     fetchTransactions();
   }, [fetchTransactions]);
 
-  const safeTransactions = Array.isArray(transactions) ? transactions : [];
-  const totalSpent = safeTransactions.reduce((acc, curr) => acc + (curr.amount || 0), 0);
+  const totalSpent = transactions.reduce((acc, curr) => acc + curr.amount, 0);
 
   const handleLogout = () => {
     localStorage.clear();
@@ -55,33 +54,33 @@ const Dashboard = () => {
         <h3 style={{ marginBottom: '2rem', opacity: 0.8 }}>Recent Transactions</h3>
         <div className="glass-card" style={{ overflow: 'hidden' }}>
           {loading ? (
-              <p style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-muted)' }}>Loading...</p>
+            <p style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-muted)' }}>Loading...</p>
           ) : (
-              <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-                <thead>
+            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+              <thead>
                 <tr style={{ background: 'rgba(255,255,255,0.02)', textAlign: 'left' }}>
                   <th style={{ padding: '1.5rem', fontSize: '0.8rem', color: 'var(--text-muted)' }}>CATEGORY</th>
                   <th style={{ padding: '1.5rem', fontSize: '0.8rem', color: 'var(--text-muted)' }}>MOOD</th>
                   <th style={{ padding: '1.5rem', fontSize: '0.8rem', color: 'var(--text-muted)', textAlign: 'right' }}>AMOUNT</th>
                 </tr>
-                </thead>
-                <tbody>
-                {safeTransactions.map((t, idx) => (
-                    <tr key={t.id || idx} style={{ borderBottom: idx === safeTransactions.length - 1 ? 'none' : '1px solid var(--glass-border)' }}>
-                      <td style={{ padding: '1.5rem' }}>{t.category}</td>
-                      <td style={{ padding: '1.5rem' }}>
+              </thead>
+              <tbody>
+                {transactions.map((t, idx) => (
+                  <tr key={t._id} style={{ borderBottom: idx === transactions.length - 1 ? 'none' : '1px solid var(--glass-border)' }}>
+                    <td style={{ padding: '1.5rem' }}>{t.category}</td>
+                    <td style={{ padding: '1.5rem' }}>
                       <span style={{ padding: '4px 12px', borderRadius: '99px', background: 'rgba(56, 189, 248, 0.1)', color: 'var(--accent)', fontSize: '0.8rem' }}>
-                        {(t.moodTag || 'MODERATE').toUpperCase()}
+                        {t.moodTag.toUpperCase()}
                       </span>
-                      </td>
-                      <td style={{ padding: '1.5rem', textAlign: 'right', fontWeight: '600' }}>-${(t.amount || 0).toFixed(2)}</td>
-                    </tr>
+                    </td>
+                    <td style={{ padding: '1.5rem', textAlign: 'right', fontWeight: '600' }}>-${t.amount.toFixed(2)}</td>
+                  </tr>
                 ))}
-                </tbody>
-              </table>
+              </tbody>
+            </table>
           )}
-          {!loading && safeTransactions.length === 0 && (
-              <p style={{ padding: '3rem', textAlign: 'center', color: 'var(--text-muted)' }}>No transactions yet. Start recording!</p>
+          {!loading && transactions.length === 0 && (
+            <p style={{ padding: '3rem', textAlign: 'center', color: 'var(--text-muted)' }}>No transactions yet. Start recording!</p>
           )}
         </div>
       </div>

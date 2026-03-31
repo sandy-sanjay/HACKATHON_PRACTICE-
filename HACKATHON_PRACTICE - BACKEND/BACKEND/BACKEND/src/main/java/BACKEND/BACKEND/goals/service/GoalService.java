@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -62,9 +61,5 @@ public class GoalService {
         result.put("progressPercentage", Math.min(100.0, progress));
 
         return result;
-    }
-
-    public List<GoalGroup> getAllGoals() {
-        return goalGroupRepository.findAll();
     }
 }
