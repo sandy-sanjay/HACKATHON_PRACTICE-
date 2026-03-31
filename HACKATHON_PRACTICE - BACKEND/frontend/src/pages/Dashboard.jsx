@@ -11,12 +11,16 @@ const Dashboard = () => {
   }, [fetchTransactions]);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   // Robust calculation for total spending
   const safeTransactions = Array.isArray(transactions) ? transactions : [];
   const totalSpent = safeTransactions.reduce((acc, curr) => acc + (curr.amount || 0), 0);
 =======
   const totalSpent = transactions.reduce((acc, curr) => acc + (Number(curr.amount) || 0), 0);
 >>>>>>> b88a4a62041c4f9af991a75fb1ab5f91422c1890
+=======
+  const totalSpent = transactions.reduce((acc, curr) => acc + (Number(curr.amount) || 0), 0);
+>>>>>>> origin/main
 
   const handleLogout = () => {
     localStorage.clear();
@@ -72,6 +76,7 @@ const Dashboard = () => {
               </thead>
               <tbody>
 <<<<<<< HEAD
+<<<<<<< HEAD
                 {safeTransactions.map((t, idx) => (
                   <tr key={t.id || idx} style={{ borderBottom: idx === safeTransactions.length - 1 ? 'none' : '1px solid var(--glass-border)' }}>
                     <td style={{ padding: '1.5rem' }}>{t.category}</td>
@@ -92,6 +97,17 @@ const Dashboard = () => {
                     </td>
                     <td style={{ padding: '1.5rem', textAlign: 'right', fontWeight: '600' }}>-${Number(t.amount).toFixed(2)}</td>
 >>>>>>> b88a4a62041c4f9af991a75fb1ab5f91422c1890
+=======
+                {transactions.map((t, idx) => (
+                  <tr key={t.id} style={{ borderBottom: idx === transactions.length - 1 ? 'none' : '1px solid var(--glass-border)' }}>
+                    <td style={{ padding: '1.5rem' }}>{t.category}</td>
+                    <td style={{ padding: '1.5rem' }}>
+                      <span style={{ padding: '4px 12px', borderRadius: '99px', background: 'rgba(56, 189, 248, 0.1)', color: 'var(--accent)', fontSize: '0.8rem' }}>
+                        {t.createdAt ? new Date(t.createdAt).toLocaleDateString() : 'N/A'}
+                      </span>
+                    </td>
+                    <td style={{ padding: '1.5rem', textAlign: 'right', fontWeight: '600' }}>-${Number(t.amount).toFixed(2)}</td>
+>>>>>>> origin/main
                   </tr>
                 ))}
               </tbody>

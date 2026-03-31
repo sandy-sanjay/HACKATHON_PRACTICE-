@@ -13,11 +13,16 @@ export const useWallet = () => {
     try {
       const response = await apiService.transactions.getAll();
 <<<<<<< HEAD
+<<<<<<< HEAD
       setTransactions(response.data || []);
 =======
       // Backend returns List<Transaction> directly (not wrapped in ApiResponse)
       setTransactions(Array.isArray(response.data) ? response.data : []);
 >>>>>>> b88a4a62041c4f9af991a75fb1ab5f91422c1890
+=======
+      // Backend returns List<Transaction> directly (not wrapped in ApiResponse)
+      setTransactions(Array.isArray(response.data) ? response.data : []);
+>>>>>>> origin/main
       setError(null);
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to fetch transactions');
@@ -31,13 +36,19 @@ export const useWallet = () => {
     try {
       const response = await apiService.transactions.getInsights();
 <<<<<<< HEAD
+<<<<<<< HEAD
       setInsights(response.data || {});
 =======
+=======
+>>>>>>> origin/main
       // Backend returns ApiResponse<Map<String,Object>> with keys:
       // totalTagsTracked, insight, suggestedNudge
       const data = response.data?.data ?? response.data;
       setInsights(data);
+<<<<<<< HEAD
 >>>>>>> b88a4a62041c4f9af991a75fb1ab5f91422c1890
+=======
+>>>>>>> origin/main
       setError(null);
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to fetch insights');
@@ -47,6 +58,7 @@ export const useWallet = () => {
   }, []);
 
   const fetchGoals = useCallback(async () => {
+<<<<<<< HEAD
 <<<<<<< HEAD
     setLoading(true);
     try {
@@ -63,6 +75,11 @@ export const useWallet = () => {
     // after creation. Nothing to fetch remotely in this version.
     setGoals((prev) => prev);
 >>>>>>> b88a4a62041c4f9af991a75fb1ab5f91422c1890
+=======
+    // No GET /goals/all endpoint on backend; goals list is managed locally
+    // after creation. Nothing to fetch remotely in this version.
+    setGoals((prev) => prev);
+>>>>>>> origin/main
   }, []);
 
   const addTransaction = async (data) => {
