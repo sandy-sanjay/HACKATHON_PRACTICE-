@@ -11,7 +11,6 @@ const Dashboard = () => {
     fetchTransactions();
   }, [fetchTransactions]);
 
-  // Robust calculation for total spending
   const safeTransactions = Array.isArray(transactions) ? transactions : [];
   const totalSpent = safeTransactions.reduce((acc, curr) => acc + (Number(curr.amount) || 0), 0);
 
