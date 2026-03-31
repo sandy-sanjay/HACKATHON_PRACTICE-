@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:8080/api';
+const API_BASE_URL = 'http://localhost:5000/api';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -24,16 +24,13 @@ export const apiService = {
     register: (data) => api.post('/auth/register', data),
   },
   transactions: {
-    create: (data) => api.post('/transactions/add', data),
-    getAll: () => api.get('/transactions/history'),
-    getInsights: () => api.get('/behavior/insights'),
-    getWallet: () => api.get('/transactions/wallet'),
+    create: (data) => api.post('/transactions', data),
+    getAll: () => api.get('/transactions'),
+    getInsights: () => api.get('/insights'),
   },
   goals: {
-    create: (data) => api.post('/goals/create', data),
-    contribute: (data) => api.post('/goals/contribute', data),
-    getProgress: (goalId) => api.get(`/goals/progress?goalId=${goalId}`),
-    getAll: () => api.get('/goals'), // Note: Backend currently missing a 'get all' endpoint
+    create: (data) => api.post('/goals', data),
+    getAll: () => api.get('/goals'),
   },
 };
 

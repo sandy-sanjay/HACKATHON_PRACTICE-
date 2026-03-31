@@ -19,7 +19,6 @@ public class BehaviorTag {
     private Long id;
 
     private String transactionId;
-    private String userId; // Link to the authenticated user
     private String mood; // (e.g., stressed, bored, etc.)
     
     private LocalDateTime createdAt;
