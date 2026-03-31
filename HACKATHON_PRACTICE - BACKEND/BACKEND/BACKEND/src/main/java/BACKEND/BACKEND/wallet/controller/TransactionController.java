@@ -1,11 +1,14 @@
 package BACKEND.BACKEND.wallet.controller;
 
+import BACKEND.BACKEND.wallet.dto.ApiResponse;
 import BACKEND.BACKEND.wallet.dto.TransactionRequest;
 import BACKEND.BACKEND.wallet.model.Transaction;
 import BACKEND.BACKEND.wallet.model.Wallet;
 import BACKEND.BACKEND.wallet.service.WalletService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,49 +16,43 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/transactions")
 @RequiredArgsConstructor
+@Slf4j
+@CrossOrigin(origins = "*")
 public class TransactionController {
 
     private final WalletService walletService;
 
-    /**
-     * Placeholder method to simulate getting userId from JWT token.
-     * In a production environment, this would be retrieved from the
-     * SecurityContextHolder or a RequestAttribute set by a JWT filter.
-     */
-    private String getCurrentUserId(String testUserId) {
-        // For testing purposes, if a header X-User-Id is passed, use it.
-        // Otherwise, return a default for now.
-        return testUserId != null ? testUserId : "default_user";
+    private String getCurrentUserId() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return principal.toString();
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Transaction> addTransaction(
-            @RequestBody TransactionRequest request,
-            @RequestHeader(value = "X-User-Id", required = false) String testUserId) {
+    public ResponseEntity<ApiResponse<Transaction>> addTransaction(
+            @RequestBody TransactionRequest request) {
 
-        String userId = getCurrentUserId(testUserId);
+        String userId = getCurrentUserId();
         Transaction transaction = walletService.addTransaction(
                 userId,
                 request.getAmount(),
                 request.getCategory());
-        return ResponseEntity.ok(transaction);
+        return ResponseEntity.ok(ApiResponse.success(transaction, "Transaction added successfully"));
     }
 
     @GetMapping("/history")
-    public ResponseEntity<List<Transaction>> getHistory(
-            @RequestHeader(value = "X-User-Id", required = false) String testUserId) {
+    public ResponseEntity<ApiResponse<List<Transaction>>> getHistory() {
 
-        String userId = getCurrentUserId(testUserId);
+        String userId = getCurrentUserId();
+        log.info("Fetching transaction history for user: {}", userId);
         List<Transaction> history = walletService.getTransactionHistory(userId);
-        return ResponseEntity.ok(history);
+        return ResponseEntity.ok(ApiResponse.success(history, "Transaction history fetched successfully"));
     }
 
     @GetMapping("/wallet")
-    public ResponseEntity<Wallet> getWallet(
-            @RequestHeader(value = "X-User-Id", required = false) String testUserId) {
+    public ResponseEntity<ApiResponse<Wallet>> getWallet() {
 
-        String userId = getCurrentUserId(testUserId);
+        String userId = getCurrentUserId();
         Wallet wallet = walletService.getWallet(userId);
-        return ResponseEntity.ok(wallet);
+        return ResponseEntity.ok(ApiResponse.success(wallet, "Wallet details fetched successfully"));
     }
 }

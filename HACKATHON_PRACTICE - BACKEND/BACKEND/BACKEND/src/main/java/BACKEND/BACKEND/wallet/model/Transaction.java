@@ -28,4 +28,8 @@ public class Transaction {
 
     @Column(nullable = false)
     private LocalDateTime createdAt;
+
+    @Builder.Default
+    @Column
+    private String moodTag = "Moderate"; 
 }
