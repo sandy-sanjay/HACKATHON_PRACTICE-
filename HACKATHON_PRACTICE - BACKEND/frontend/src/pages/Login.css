@@ -1,0 +1,62 @@
+/* Login Page Styles */
+
+.login-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.login-card {
+  padding: 3rem;
+  width: 100%;
+  max-width: 400px;
+}
+
+.login-title {
+  margin-bottom: 0.5rem;
+  background: linear-gradient(to right, #38bdf8, #818cf8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.login-subtitle {
+  color: var(--text-muted);
+  margin-bottom: 2rem;
+}
+
+.login-error {
+  color: var(--error);
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.login-form-group {
+  margin-bottom: 1rem;
+}
+
+.login-form-group-last {
+  margin-bottom: 2rem;
+}
+
+.login-label {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+}
+
+.login-submit-btn {
+  width: 100%;
+}
+
+.login-toggle-btn {
+  background: none;
+  border: none;
+  color: var(--accent);
+  margin-top: 1.5rem;
+  width: 100%;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
