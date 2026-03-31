@@ -74,14 +74,22 @@ const Dashboard = () => {
                         {t.createdAt ? new Date(t.createdAt).toLocaleDateString() : 'N/A'}
                       </span>
                     </td>
+<<<<<<< Updated upstream
                     <td className="dashboard-table-td-right">-${Number(t.amount).toFixed(2)}</td>
+=======
+                    <td style={{ padding: '1.5rem', textAlign: 'right', fontWeight: '600' }}>-${Number(t.amount).toFixed(2)}</td>
+>>>>>>> Stashed changes
                   </tr>
                 ))}
               </tbody>
             </table>
           )}
           {!loading && transactions.length === 0 && (
+<<<<<<< Updated upstream
             <p className="dashboard-empty-text">No transactions yet. Start recording!</p>
+=======
+            <p style={{ padding: '3rem', textAlign: 'center', color: 'var(--text-muted)' }}>No transactions yet. Start recording!</p>
+>>>>>>> Stashed changes
           )}
         </div>
       </div>
