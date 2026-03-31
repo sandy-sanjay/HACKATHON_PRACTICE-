@@ -11,7 +11,9 @@ const Dashboard = () => {
     fetchTransactions();
   }, [fetchTransactions]);
 
-  const totalSpent = transactions.reduce((acc, curr) => acc + (Number(curr.amount) || 0), 0);
+  // Robust calculation for total spending
+  const safeTransactions = Array.isArray(transactions) ? transactions : [];
+  const totalSpent = safeTransactions.reduce((acc, curr) => acc + (Number(curr.amount) || 0), 0);
 
   const handleLogout = () => {
     localStorage.clear();
@@ -66,30 +68,22 @@ const Dashboard = () => {
                 </tr>
               </thead>
               <tbody>
-                {transactions.map((t, idx) => (
-                  <tr key={t.id} style={{ borderBottom: idx === transactions.length - 1 ? 'none' : '1px solid var(--glass-border)' }}>
+                {safeTransactions.map((t, idx) => (
+                  <tr key={t.id || idx} className="dashboard-table-row">
                     <td className="dashboard-table-td">{t.category}</td>
                     <td className="dashboard-table-td">
                       <span className="dashboard-date-badge">
-                        {t.createdAt ? new Date(t.createdAt).toLocaleDateString() : 'N/A'}
+                        {t.createdAt ? new Date(t.createdAt).toLocaleDateString() : (t.moodTag || 'MODERATE').toUpperCase()}
                       </span>
                     </td>
-<<<<<<< Updated upstream
-                    <td className="dashboard-table-td-right">-${Number(t.amount).toFixed(2)}</td>
-=======
-                    <td style={{ padding: '1.5rem', textAlign: 'right', fontWeight: '600' }}>-${Number(t.amount).toFixed(2)}</td>
->>>>>>> Stashed changes
+                    <td className="dashboard-table-td-right">-${Number(t.amount || 0).toFixed(2)}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           )}
-          {!loading && transactions.length === 0 && (
-<<<<<<< Updated upstream
+          {!loading && safeTransactions.length === 0 && (
             <p className="dashboard-empty-text">No transactions yet. Start recording!</p>
-=======
-            <p style={{ padding: '3rem', textAlign: 'center', color: 'var(--text-muted)' }}>No transactions yet. Start recording!</p>
->>>>>>> Stashed changes
           )}
         </div>
       </div>
