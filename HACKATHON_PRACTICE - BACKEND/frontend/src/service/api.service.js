@@ -28,6 +28,19 @@ export const apiService = {
     register: (data) => api.post('/auth/register', data),
   },
   transactions: {
+<<<<<<< HEAD
+<<<<<<< HEAD
+    create: (data) => api.post('/transactions/add', data),
+    getAll: () => api.get('/transactions/history'),
+    getInsights: () => api.get('/behavior/insights'),
+    getWallet: () => api.get('/transactions/wallet'),
+  },
+  goals: {
+    create: (data) => api.post('/goals/create', data),
+    contribute: (data) => api.post('/goals/contribute', data),
+    getProgress: (goalId) => api.get(`/goals/progress?goalId=${goalId}`),
+    getAll: () => api.get('/goals'),
+=======
     // Backend: POST /api/transactions/add
     create: (data) => api.post('/transactions/add', data),
     // Backend: GET /api/transactions/history
@@ -36,6 +49,16 @@ export const apiService = {
     getInsights: () => api.get('/behavior/insights'),
   },
   goals: {
+=======
+    // Backend: POST /api/transactions/add
+    create: (data) => api.post('/transactions/add', data),
+    // Backend: GET /api/transactions/history
+    getAll: () => api.get('/transactions/history'),
+    // Backend: GET /api/behavior/insights
+    getInsights: () => api.get('/behavior/insights'),
+  },
+  goals: {
+>>>>>>> origin/main
     // Backend: POST /api/goals/create  (uses @RequestParam, not body)
     create: (data) => api.post(`/goals/create?name=${encodeURIComponent(data.name)}&targetAmount=${data.targetAmount}`),
     // Backend: GET /api/goals/{id}/progress
@@ -48,6 +71,10 @@ export const apiService = {
     tag: (transactionId, mood) => api.post(`/behavior/tag?transactionId=${transactionId}&mood=${mood}`),
     // Backend: GET /api/behavior/insights
     getInsights: () => api.get('/behavior/insights'),
+<<<<<<< HEAD
+>>>>>>> b88a4a62041c4f9af991a75fb1ab5f91422c1890
+=======
+>>>>>>> origin/main
   },
 };
 
