@@ -15,9 +15,8 @@ const GoalWallet = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const result = await addGoal({
-      title: newTitle,
+      name: newTitle,
       targetAmount: parseFloat(newTarget),
-      deadline: newDeadline
     });
     if (result.success) {
       setNewTitle('');
@@ -41,13 +40,9 @@ const GoalWallet = () => {
               <label style={{ display: 'block', fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '0.5rem' }}>TITLE (e.g., iPhone 16 Pro)</label>
               <input className="input-field" type="text" value={newTitle} onChange={(e) => setNewTitle(e.target.value)} required />
             </div>
-            <div style={{ marginBottom: '1rem' }}>
+            <div style={{ marginBottom: '2rem' }}>
               <label style={{ display: 'block', fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '0.5rem' }}>TARGET AMOUNT ($)</label>
               <input className="input-field" type="number" step="0.01" value={newTarget} onChange={(e) => setNewTarget(e.target.value)} required />
-            </div>
-            <div style={{ marginBottom: '2rem' }}>
-              <label style={{ display: 'block', fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '0.5rem' }}>DEADLINE</label>
-              <input className="input-field" type="date" value={newDeadline} onChange={(e) => setNewDeadline(e.target.value)} required />
             </div>
             <button className="btn-primary" style={{ width: '100%' }} type="submit" disabled={loading}>
               {loading ? 'Creating...' : 'Create Goal'}
@@ -59,11 +54,13 @@ const GoalWallet = () => {
         <div>
           <h3 style={{ marginBottom: '1.5rem', opacity: 0.8 }}>Active Milestones</h3>
           {goals.map((g, idx) => {
-            const progress = (g.currentAmount / g.targetAmount) * 100;
+            const current = Number(g.currentAmount) || 0;
+            const target = Number(g.targetAmount) || 1;
+            const progress = (current / target) * 100;
             return (
-              <div key={g._id} className="glass-card animate-in" style={{ padding: '2rem', marginBottom: '1.5rem', animationDelay: `${idx * 0.1}s` }}>
+              <div key={g.id} className="glass-card animate-in" style={{ padding: '2rem', marginBottom: '1.5rem', animationDelay: `${idx * 0.1}s` }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-                  <h4 style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>{g.title}</h4>
+                  <h4 style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>{g.name}</h4>
                   <span style={{ fontSize: '0.9rem', color: 'var(--accent)', fontWeight: 'bold' }}>{progress.toFixed(0)}%</span>
                 </div>
                 
@@ -77,8 +74,8 @@ const GoalWallet = () => {
                 </div>
                 
                 <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem' }}>
-                  <span style={{ color: 'var(--text-muted)' }}>Progress: ${g.currentAmount} / ${g.targetAmount}</span>
-                  <span style={{ color: 'var(--text-muted)' }}>Target: {new Date(g.deadline).toLocaleDateString()}</span>
+                  <span style={{ color: 'var(--text-muted)' }}>Progress: ${current.toFixed(2)} / ${Number(g.targetAmount).toFixed(2)}</span>
+                  <span style={{ color: 'var(--text-muted)' }}>Goal ID: #{g.id}</span>
                 </div>
               </div>
             );

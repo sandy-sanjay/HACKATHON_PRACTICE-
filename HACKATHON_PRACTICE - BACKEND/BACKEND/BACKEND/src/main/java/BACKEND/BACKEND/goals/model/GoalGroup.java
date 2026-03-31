@@ -24,5 +24,6 @@ public class GoalGroup {
     private Double targetAmount;
 
     @Column(nullable = false)
+    @Builder.Default
     private Double currentAmount = 0.0;
 }
